@@ -1,6 +1,6 @@
-#go-expert-tool-box
-
-Meu registro e estudos feito no curso Golang Expert :D
-
-- Fundamentos -> branch: baby-steps
-- Packages -> branch: packages
+# Go Expert Tool Box
+## Descrição
+Meus registros e estudos feito no curso Golang Expert :D
+## Branchs
+- baby-steps: Fundamentos
+- packages: Pacotes
