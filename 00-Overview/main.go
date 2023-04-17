@@ -1,16 +1,18 @@
 package main
 
-import "fmt"
+import "github.com/anap7/go-expert-tool-box/model"
 
-type Person struct {
-	Name string
-	Age int
-}
+//"errors"
+//"fmt"
 
 func main() {
-	user := Person{
-		Name: "Dirce",
-		Age: 30,
-	}
-	fmt.Println(user.Name)
+	product01 := model.NewProduct()
+	product01.Name = "Carrinho"
+
+	product02 := model.NewProduct()
+	product02.Name = "Boneca"
+
+	products := model.Products{}
+	products.Add(product01)
+	products.Add(product02)
 }
