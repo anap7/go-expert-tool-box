@@ -1,0 +1,28 @@
+{
+	"info": {
+		"_postman_id": "d9c3164a-feb8-4092-9f6d-e35ff34d1f85",
+		"name": "Go Expert",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27427070"
+	},
+	"item": [
+		{
+			"name": "packages",
+			"item": [
+				{
+					"name": "http-cep",
+					"item": [
+						{
+							"name": "Get Address By CEP",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
