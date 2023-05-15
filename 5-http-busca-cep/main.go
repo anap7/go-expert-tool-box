@@ -45,13 +45,14 @@ func RequestHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	
-	//Primeira alternativa para retornar sua requisição
-	jsonResult, error := json.Marshal(cepResult)
+	//Primeira alternativa para retornar sua requisição:
+	
+	/*jsonResult, error := json.Marshal(cepResult)
 	if error != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	w.Write(jsonResult)
+	w.Write(jsonResult)*/
 
 	//Segunda alternativa para retornar sua requisição - Aqui está transformando a struct em json e jogando para o "w" para retornar a resposta
 	json.NewEncoder(w).Encode(cepResult)
