@@ -1,29 +1,55 @@
 package main
 
 import (
-	"bytes"
-	"io"
+	"context"
+	"io/ioutil"
 	"net/http"
-	"os"
+	"time"
 )
 
 /*
-	http client do Go e suas chamadas
+	Trabalhando com HTTP usando Contextos
 
-	Pensando em performance para chamada e respostas de
-	um http, vamos trabalhar com os "limites" de chamadas ou
-	o famoso timeout
+	O que é o pacote de contexto do Go e o que faz?
+		Esse pacote de contexto permite que passamos as informações dele
+		para diversas chamadas no nosso sistema e com a opção de fazer
+		com que esses contextos sejam cancelados
+
+	Exemplo: Fazemos uma requisição http e ela vai demorar um pouco para finalizar e
+	enquanto estamos fazendo essa requisição http o meu sistema está realizando uma conta
+	e dependendo do resultado da criação dessa conta não vou precisar mais do resultado da
+	requisição. Nisso temos a opção de continuar aguardando nossa requisição http para pegar
+	resultado ou fazer o sistema perceber que não é necessário mais a resposta da requisição
+	e interromper.const
+
+	Ou seja, a ideia do contexto é permitir que os nosso programas interropam uma execução
+	de algo que não é mais necessário e acordo com o contexto da sua aplicação. E um dos pontos
+	que conseguimos trabalhar com contexto é utilizando o tempo.
 */
+
 func main() {
-	c := http.Client{}
-	/*É necessario "bufferizar" um slice de bytes para que seja permitido passar
-	como body no método Post, pois o body é um io.Reader*/
-	jsonVar := bytes.NewBuffer([]byte(`{"name": "Milta"}`))
-	/*É esperado o status 405 Not Allowed*/
-	res, err := c.Post("http://google.com", "application/json", jsonVar)
+	//Iniciando um contexto
+	ctx := context.Background()
+	//Criando um contexto com timeout de 1 segundo
+	ctx, cancel := context.WithTimeout(ctx, time.Microsecond)
+	//Cancelando o context - O contexto pode ser cancelado a partir dessa função cancel ou o timeout definido acima
+	defer cancel()
+
+	//Atribuido nosso contexto uma request
+	req, err := http.NewRequestWithContext(ctx, "GET", "http://google.com", nil)
+	if err != nil {
+		panic(err)
+	}
+
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		panic(err)
 	}
 	defer res.Body.Close()
-	io.CopyBuffer(os.Stdout, res.Body, nil)
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+	println(string(body))
 }
